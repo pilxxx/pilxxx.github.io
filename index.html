@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jardín de color · Pili Castro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f2ec; --ink:#2a2230; --muted:#8a7d86; --line:#e7ddd2; --card:#fbf8f4;
+  --mag:#c2185b;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --paper:#17131a; --ink:#f1e9ee; --muted:#9d8f99; --line:#2c2530; --card:#1d1820; --mag:#e2558e; }
+}
+:root[data-theme="dark"]{ --paper:#17131a; --ink:#f1e9ee; --muted:#9d8f99; --line:#2c2530; --card:#1d1820; --mag:#e2558e; }
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Fraunces", Georgia, serif; font-weight:300;
+  min-height:100vh;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:56px 56px;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:340px 1fr;gap:56px;align-items:start}
+.mono{font-family:"DM Mono", ui-monospace, monospace;font-weight:300;letter-spacing:.18em;text-transform:uppercase;font-size:12px}
+.kicker{color:var(--mag)}
+h1{font-weight:300;font-size:56px;line-height:1.02;margin:14px 0 18px;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--mag)}
+.rule{width:72px;height:1px;background:var(--ink);margin:22px 0}
+p{font-size:17px;line-height:1.6;color:var(--ink);opacity:.86;margin:0 0 14px}
+.readout{margin-top:28px;padding:18px 20px;border:1px solid var(--line);background:var(--card);border-radius:14px}
+.readout .row{display:flex;align-items:center;gap:14px}
+.swatch{width:34px;height:34px;border-radius:50%;background:var(--mag);transition:background .5s ease;flex:none}
+.readout .name{font-size:20px;font-style:italic}
+.readout .hex{color:var(--muted);margin-top:2px}
+.stats{display:flex;gap:22px;margin-top:16px;color:var(--muted)}
+.stats b{color:var(--ink);font-weight:400}
+.btns{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+button.pill{font:inherit;font-family:"DM Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink);background:transparent;border:1px solid var(--ink);border-radius:999px;padding:10px 16px;cursor:pointer;transition:background .2s,color .2s}
+button.pill:hover{background:var(--ink);color:var(--paper)}
+button.pill:focus-visible{outline:2px solid var(--mag);outline-offset:3px}
+
+.garden{
+  position:relative;aspect-ratio:1/1;width:100%;
+  display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);gap:10px;grid-auto-flow:dense;
+  padding:22px;border:1px solid var(--line);border-radius:22px;background:var(--card);
+}
+.dot{
+  all:unset;cursor:pointer;position:relative;display:grid;place-items:center;
+  width:100%;height:100%;
+}
+.dot span{
+  display:block;border-radius:50%;width:var(--s,80%);aspect-ratio:1/1;
+  background:var(--c);transition:background .6s cubic-bezier(.45,0,.55,1), transform .35s cubic-bezier(.3,1.6,.5,1);
+}
+.dot.half span{border-radius:999px 999px 0 0;aspect-ratio:2/1}
+.dot.ring span{background:transparent;box-shadow:inset 0 0 0 1.5px var(--c)}
+.dot:hover span{transform:scale(1.08)}
+.dot:active span{transform:scale(.92)}
+.dot:focus-visible span{outline:2px solid var(--ink);outline-offset:4px}
+.dot.big{grid-column:span 2;grid-row:span 2}
+.ripple{position:absolute;inset:0;margin:auto;border-radius:50%;pointer-events:none;width:30%;aspect-ratio:1;
+  border:1.5px solid var(--c);opacity:.8;animation:rip .9s ease-out forwards}
+@keyframes rip{to{transform:scale(3.2);opacity:0}}
+.caption{grid-column:1/-1;margin-top:14px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;color:var(--muted)}
+footer{max-width:1080px;margin:0 auto;padding:0 24px 40px;color:var(--muted)}
+footer a{color:var(--ink)}
+@media (max-width:820px){
+  .wrap{grid-template-columns:1fr;gap:32px;padding:36px 16px}
+  h1{font-size:44px}
+  .garden{gap:6px;padding:14px}
+  footer{padding:0 16px 32px}
+}
+@media (prefers-reduced-motion: reduce){ .dot span{transition:none} .ripple{display:none} }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section>
+    <div class="mono kicker">un pequeño juego</div>
+    <h1>Jardín de <em>color</em></h1>
+    <p>Cada redondel guarda una secuencia de tonos: magentas, rosados, rojizos, violetas y azules. Tocalos para que muten.</p>
+    <p style="color:var(--muted);font-size:15px">Forma, color y un poquito de azar: un guiño a la Bauhaus, a las flores y a la genética.</p>
+    <div class="rule"></div>
+
+    <div class="readout" aria-live="polite">
+      <div class="row">
+        <div class="swatch" id="sw"></div>
+        <div>
+          <div class="name" id="nm">magenta</div>
+          <div class="hex mono" id="hx">#C2185B</div>
+        </div>
+      </div>
+      <div class="stats mono">
+        <div>mutaciones <b id="mut">0</b></div>
+        <div>tonos vistos <b id="seen">1</b>/<span id="tot"></span></div>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button class="pill" id="bloom">florecer ✿</button>
+      <button class="pill" id="reset">reiniciar</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="garden" id="garden" aria-label="Redondeles interactivos"></div>
+    <div class="caption mono"><span>estadística · datos · forma</span><span>rosario, ar</span></div>
+  </section>
+</main>
+<footer class="mono">hecho por <a href="https://github.com/TU-USUARIO">Pili Castro</a></footer>
+
+<script>
+const PALETTE = [
+  ["magenta","#C2185B"],["frambuesa","#D63A73"],["rosa viejo","#E79AB3"],["rosa nácar","#F2C4CF"],
+  ["rojo granada","#B5394A"],["coral","#E9775F"],["borravino","#7E2A3F"],
+  ["violeta","#7A4FA3"],["lavanda","#B9A7D9"],["ciruela","#5A2D6B"],
+  ["azul bauhaus","#2F5D8A"],["azul noche","#1F3A5F"],["celeste pizarra","#7FA3C6"]
+];
+// layout: [type, size, extra class]
+const LAYOUT = [
+  "big","dot","half","dot","ring",
+  "dot","dot","dot","half",
+  "ring","dot","big","dot",
+  "dot","half","dot","ring","dot",
+  "dot","dot","dot","half","dot","dot",
+  "ring","dot","half","dot","dot","ring"
+];
+const garden = document.getElementById("garden");
+const sw = document.getElementById("sw"), nm = document.getElementById("nm"), hx = document.getElementById("hx");
+const mutEl = document.getElementById("mut"), seenEl = document.getElementById("seen");
+document.getElementById("tot").textContent = PALETTE.length;
+let mutations = 0; const seen = new Set([0]);
+
+const rnd = n => Math.floor(Math.random()*n);
+const dots = [];
+
+function show(i){
+  const [name,hex] = PALETTE[i];
+  sw.style.background = hex; nm.textContent = name; hx.textContent = hex;
+  seen.add(i); seenEl.textContent = seen.size;
+}
+function setColor(d, i){ d.idx = i; d.el.style.setProperty("--c", PALETTE[i][1]); d.el.setAttribute("aria-label", "redondel " + PALETTE[i][0]); }
+
+LAYOUT.forEach((kind, k) => {
+  const b = document.createElement("button");
+  b.className = "dot" + (kind==="dot" ? "" : " " + kind);
+  const sizes = ["58%","70%","82%","46%"];
+  b.style.setProperty("--s", kind==="big" ? "88%" : kind==="half" ? "84%" : sizes[k % sizes.length]);
+  const s = document.createElement("span"); b.appendChild(s);
+  const d = { el:b, idx:0, step: 1 + (k % 3) };   // each circle "mutates" with its own step
+  setColor(d, (k*2) % PALETTE.length);
+  b.addEventListener("click", () => {
+    setColor(d, (d.idx + d.step) % PALETTE.length);
+    mutations++; mutEl.textContent = mutations; show(d.idx);
+    const r = document.createElement("i"); r.className = "ripple"; r.style.setProperty("--c", PALETTE[d.idx][1]);
+    b.appendChild(r); setTimeout(() => r.remove(), 900);
+  });
+  garden.appendChild(b); dots.push(d);
+});
+
+document.getElementById("bloom").addEventListener("click", () => {
+  dots.forEach((d, k) => setTimeout(() => { setColor(d, rnd(PALETTE.length)); seen.add(d.idx); seenEl.textContent = seen.size; }, k*40));
+  mutations += dots.length; mutEl.textContent = mutations;
+});
+document.getElementById("reset").addEventListener("click", () => {
+  dots.forEach((d, k) => setColor(d, (k*2) % PALETTE.length));
+  mutations = 0; mutEl.textContent = 0; seen.clear(); show(0);
+});
+</script>
+</body>
+</html>
